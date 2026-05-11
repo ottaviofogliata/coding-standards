@@ -16,6 +16,8 @@ Baseline: Python 3.12+. Project profiles may be stricter, not weaker.
 
 ## Mandatory Rules
 
+- PY-G01: Generated code must satisfy the same contract as handwritten code.
+
 ### Security and Boundaries
 
 - PY-S01: Treat files, network, IPC, environment, user input, credentials, parsers, plugins, external APIs, databases, subprocesses, and deserialization as untrusted boundaries.

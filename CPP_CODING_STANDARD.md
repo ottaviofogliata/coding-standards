@@ -17,6 +17,8 @@ Baseline: C++17. Project profiles may be stricter, not weaker.
 
 ## Mandatory Rules
 
+- CPP-G01: Generated code must satisfy the same contract as handwritten code.
+
 ### Language and Behavior
 
 - CPP-L01: Use C++17 and the project toolchain profile.
@@ -74,6 +76,7 @@ Baseline: C++17. Project profiles may be stricter, not weaker.
 ## Tooling Gate
 
 - Compile with the project profile plus strict warnings: `-std=c++17 -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Woverloaded-virtual -Wnull-dereference -Wformat=2`.
+- Run sanitizer builds for memory, undefined-behavior, and thread issues.
 - Run static analysis with project-selected MISRA/CERT/Core coverage, at minimum compiler diagnostics plus one analyzer such as `clang-tidy`, `cppcheck`, Coverity, PVS-Studio, Polyspace, Parasoft, Helix QAC, or LDRA.
 - Treat C APIs and low-level runtime interfaces as also subject to the C coding standard.
 
@@ -83,7 +86,8 @@ Code is acceptable only when:
 
 1. It builds cleanly with the required warnings.
 2. Static analysis has no unresolved critical findings.
-3. Ownership, lifetime, errors, and boundary validation are explicit.
-4. Unsafe APIs, shared state, throwing across forbidden boundaries, and dynamic allocation are absent.
-5. Modules, headers, files, classes, and functions stay within this contract.
-6. Every mandatory rule passes.
+3. Tests for normal paths, error paths, and boundary inputs pass.
+4. Ownership, lifetime, errors, and boundary validation are explicit.
+5. Unsafe APIs, shared state, throwing across forbidden boundaries, and dynamic allocation are absent.
+6. Modules, headers, files, classes, and functions stay within this contract.
+7. Every mandatory rule passes.

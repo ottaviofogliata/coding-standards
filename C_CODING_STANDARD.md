@@ -16,6 +16,8 @@ Baseline: C17. Project profiles may be stricter, not weaker.
 
 ## Mandatory Rules
 
+- C-G01: Generated code must satisfy the same contract as handwritten code.
+
 ### Language and Behavior
 
 - C-L01: Use C17 and the project toolchain profile.
@@ -71,6 +73,7 @@ Baseline: C17. Project profiles may be stricter, not weaker.
 
 - Compile with the project profile plus strict warnings: `-std=c17 -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wstrict-prototypes -Wmissing-prototypes -Wold-style-definition -Wpointer-arith -Wcast-align -Wcast-qual -Wwrite-strings -Wnull-dereference -Wformat=2`.
 - Enable supported hardening flags such as `-fstack-protector-strong` and `_FORTIFY_SOURCE`.
+- Run sanitizer builds for memory, undefined-behavior, and thread issues.
 - Run static analysis with project-selected MISRA/CERT coverage, at minimum compiler diagnostics plus one analyzer such as `clang-tidy`, `cppcheck`, Coverity, PVS-Studio, Polyspace, Parasoft, Helix QAC, or LDRA.
 
 ## Definition of Done
@@ -79,7 +82,8 @@ Code is acceptable only when:
 
 1. It builds cleanly with the required warnings.
 2. Static analysis has no unresolved critical findings.
-3. Ownership, lifetime, errors, and boundary validation are explicit.
-4. Unsafe APIs, shared state, and dynamic allocation are absent.
-5. Modules, headers, files, and functions stay within this contract.
-6. Every mandatory rule passes.
+3. Tests for normal paths, error paths, and boundary inputs pass.
+4. Ownership, lifetime, errors, and boundary validation are explicit.
+5. Unsafe APIs, shared state, and dynamic allocation are absent.
+6. Modules, headers, files, and functions stay within this contract.
+7. Every mandatory rule passes.
