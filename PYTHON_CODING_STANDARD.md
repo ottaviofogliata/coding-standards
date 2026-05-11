@@ -4,8 +4,6 @@ This document defines the default coding model for safe, secure, clean, maintain
 
 It is intended for both humans and coding agents.
 
-Also known as the PY/PYTHON coding standard for this repository.
-
 ## Authority Order
 
 Use these standards together:
@@ -54,17 +52,6 @@ When writing, editing, or reviewing Python code:
 8. Avoid hidden global state.
 9. Use patterns only when they reduce complexity.
 10. If a rule must be broken, document the deviation.
-```
-
-Every generated solution should satisfy:
-
-```text
-safe by default
-secure at boundaries
-deterministic where possible
-easy to review
-easy to test
-easy to analyze
 ```
 
 ---
@@ -141,19 +128,12 @@ P-04: Prefer explicit code over clever code.
 P-05: Prefer small functions with clear inputs and outputs.
 P-06: Use docstrings for public modules, classes, and functions.
 P-07: Keep comments focused on why, not what.
-P-08: Use type hints for public APIs and non-trivial internal functions.
-P-09: Prefer precise types over Any.
-P-10: Avoid mutable default arguments.
-P-11: Prefer pathlib over raw string path manipulation.
-P-12: Prefer dataclasses or typed models for structured data.
-P-13: Prefer enums for constrained symbolic values.
-P-14: Prefer context managers for resources.
-P-15: Prefer comprehensions only when they remain readable.
-P-16: Avoid star imports.
-P-17: Avoid module-level side effects.
-P-18: Avoid circular imports.
-P-19: Keep imports explicit and organized.
-P-20: Write code that is easy to test and review.
+P-08: Avoid mutable default arguments.
+P-09: Prefer pathlib over raw string path manipulation.
+P-10: Prefer context managers for resources.
+P-11: Prefer comprehensions only when they remain readable.
+P-12: Keep imports explicit and organized.
+P-13: Write code that is easy to test and review.
 ```
 
 ---
@@ -216,19 +196,6 @@ E-07: Return Result-like objects only when they improve clarity.
 E-08: Log errors at the boundary where they are handled.
 E-09: Avoid duplicate logging and re-raising.
 E-10: Make error states testable.
-```
-
-Example:
-
-```python
-class ConfigError(RuntimeError):
-    """Raised when configuration is invalid."""
-
-
-def load_config(path: Path) -> Config:
-    if not path.is_file():
-        raise ConfigError(f"Config file not found: {path}")
-    ...
 ```
 
 ---
@@ -353,30 +320,6 @@ Recommended thresholds:
 
 ---
 
-## Minimum Baseline
-
-All Python code must satisfy:
-
-```text
-B-01: Use Python 3.12+ unless the project requires another version.
-B-02: Format code consistently.
-B-03: Run linting in CI.
-B-04: Run type checking in CI where feasible.
-B-05: Run tests in CI.
-B-06: Validate all external input.
-B-07: Avoid unsafe dynamic execution.
-B-08: Avoid unsafe deserialization.
-B-09: Use explicit error handling.
-B-10: Use type hints for public APIs.
-B-11: Avoid hidden global state.
-B-12: Keep modules simple, cohesive, and testable.
-B-13: Keep files and functions within size limits.
-B-14: Keep dependencies minimal and reviewed.
-B-15: Document security/typing/size/design deviations.
-```
-
----
-
 ## Tooling Baseline
 
 Recommended formatter and linter:
@@ -467,17 +410,4 @@ Code is acceptable only when:
 10. Dependencies are minimal and reviewed.
 11. Files and functions stay within size limits or have a documented reason.
 12. Deviations are documented.
-```
-
----
-
-## Final Model
-
-```text
-Security:          Security and safe-runtime rules
-Style quality:     PEP 8, PEP 257, typing conventions
-Design quality:    Project Python Design Rules
-File structure:    .py package/module rules
-Language:          Python 3.12+
-Rule model:        Combined standard; safety, security, clarity, and design advance together
 ```

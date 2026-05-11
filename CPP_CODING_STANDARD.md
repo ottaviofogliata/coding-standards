@@ -4,8 +4,6 @@ This document defines the default coding model for safe, secure, clean, maintain
 
 It is intended for both humans and coding agents.
 
-Also known as the CPP/CXX coding standard for this repository.
-
 ## Authority Order
 
 Use these standards together:
@@ -55,17 +53,6 @@ When writing, editing, or reviewing C++ code:
 9. Keep headers self-contained and lightweight.
 10. Use patterns only when they reduce complexity.
 11. If a rule must be broken, document the deviation.
-```
-
-Every generated solution should satisfy:
-
-```text
-safe by default
-secure at boundaries
-deterministic where possible
-easy to review
-easy to test
-easy to analyze
 ```
 
 ---
@@ -140,19 +127,17 @@ C-04: Make overflow impossible or explicitly checked.
 C-05: Avoid raw buffers when safer abstractions exist.
 C-06: Avoid unsafe C string/memory functions.
 C-07: Wrap unsafe C APIs behind reviewed abstractions.
-C-08: Make ownership explicit.
-C-09: Do not use ambiguous owning raw pointers.
-C-10: Use RAII for resources.
-C-11: Check return values and error states.
-C-12: Handle partial reads/writes and failure paths.
-C-13: Prevent use-after-free, double-free, and dangling references.
-C-14: Protect shared mutable data.
-C-15: Document lock ordering.
-C-16: Avoid TOCTOU bugs.
-C-17: Avoid shell execution by default.
-C-18: Do not let exceptions cross forbidden API/ABI boundaries.
-C-19: Encode security assumptions in checks, tests, or analysis.
-C-20: Apply CERT C when using C APIs or low-level runtime interfaces.
+C-08: Enforce ownership and resource-lifetime contracts at boundaries.
+C-09: Check return values and error states.
+C-10: Handle partial reads/writes and failure paths.
+C-11: Prevent use-after-free, double-free, and dangling references.
+C-12: Protect shared mutable data.
+C-13: Document lock ordering.
+C-14: Avoid TOCTOU bugs.
+C-15: Avoid shell execution by default.
+C-16: Do not let exceptions cross forbidden API/ABI boundaries.
+C-17: Encode security assumptions in checks, tests, or analysis.
+C-18: Apply CERT C when using C APIs or low-level runtime interfaces.
 ```
 
 ---
@@ -173,23 +158,21 @@ Use these rules only when they do not conflict with MISRA or CERT.
 G-01: Prefer RAII.
 G-02: Prefer value semantics.
 G-03: Prefer const by default.
-G-04: Avoid owning raw pointers.
-G-05: Express ownership with types.
-G-06: Prefer unique ownership over shared ownership.
-G-07: Avoid shared ownership unless lifetime is clear.
-G-08: Prefer std::array for fixed-size storage.
-G-09: Use std::vector only if dynamic allocation is allowed.
-G-10: Use std::span or equivalent for non-owning views when allowed.
-G-11: Prefer enum class.
-G-12: Prefer constexpr and const over macros.
-G-13: Prefer standard algorithms when clear and analyzable.
-G-14: Keep interfaces small and explicit.
-G-15: Make invalid states unrepresentable where practical.
-G-16: Avoid complex inheritance.
-G-17: Use override and final intentionally.
-G-18: Avoid implicit ownership transfer.
-G-19: Avoid surprising side effects.
-G-20: Write code that is easy to test and review.
+G-04: Express ownership with types; do not use owning raw pointers.
+G-05: Prefer unique ownership; use shared ownership only when lifetime is clear.
+G-06: Prefer std::array for fixed-size storage.
+G-07: Use std::vector only if dynamic allocation is allowed.
+G-08: Use std::span or equivalent for non-owning views when allowed.
+G-09: Prefer enum class.
+G-10: Prefer constexpr and const over macros.
+G-11: Prefer standard algorithms when clear and analyzable.
+G-12: Keep interfaces small and explicit.
+G-13: Make invalid states unrepresentable where practical.
+G-14: Avoid complex inheritance.
+G-15: Use override and final intentionally.
+G-16: Avoid implicit ownership transfer.
+G-17: Avoid surprising side effects.
+G-18: Write code that is easy to test and review.
 ```
 
 ---
@@ -202,7 +185,7 @@ Purpose:
 Make design simple, cohesive, loosely coupled, and easy to evolve.
 ```
 
-Use clean-code, OOP, SOLID, and design-pattern principles as design tools, not as rigid goals.
+Use object-oriented and design-pattern principles as design tools, not as rigid goals.
 
 ### Design Rules
 
@@ -217,16 +200,14 @@ D-07: Keep public interfaces small and explicit.
 D-08: Hide implementation details behind clear abstractions.
 D-09: Depend on abstractions only when they reduce coupling.
 D-10: Do not introduce interfaces, factories, or patterns without a concrete need.
-D-11: Apply SOLID principles when they improve clarity and testability.
-D-12: Use design patterns as tools, not as goals.
-D-13: Prefer dependency injection for external services, I/O, clocks, randomness, and system APIs.
-D-14: Separate pure logic from side effects.
-D-15: Make modules easy to test without global state.
-D-16: Avoid circular dependencies.
-D-17: Keep naming precise, domain-oriented, and unsurprising.
-D-18: Prefer explicit control flow over hidden magic.
-D-19: Avoid premature generalization.
-D-20: Optimize only after correctness, safety, and clarity are established.
+D-11: Prefer dependency injection for external services, I/O, clocks, randomness, and system APIs.
+D-12: Separate pure logic from side effects.
+D-13: Make modules easy to test without global state.
+D-14: Avoid circular dependencies.
+D-15: Keep naming precise, domain-oriented, and unsurprising.
+D-16: Prefer explicit control flow over hidden magic.
+D-17: Avoid premature generalization.
+D-18: Optimize only after correctness, safety, and clarity are established.
 ```
 
 ---
@@ -300,34 +281,6 @@ Recommended thresholds:
 300-500:   acceptable
 500-800:   justify
 > 800:     approved deviation required
-```
-
----
-
-## Minimum Baseline
-
-All C++ code must satisfy:
-
-```text
-B-01: Use C++17.
-B-02: Enable high compiler warnings.
-B-03: Treat warnings as errors in CI where feasible.
-B-04: Run static analysis in CI.
-B-05: Use sanitizers in test builds where possible.
-B-06: Avoid undefined behavior.
-B-07: Initialize every object.
-B-08: Prefer RAII.
-B-09: Avoid owning raw pointers.
-B-10: Avoid runtime dynamic allocation unless approved.
-B-11: Validate all external input.
-B-12: Check all errors and return values.
-B-13: Make integer conversions explicit and checked.
-B-14: Avoid unsafe C APIs unless wrapped.
-B-15: Protect shared mutable state.
-B-16: Keep design simple, cohesive, and testable.
-B-17: Keep files and functions within size limits.
-B-18: Keep headers self-contained, minimal, and free of hidden dependencies.
-B-19: Document MISRA/CERT/size/design/header deviations.
 ```
 
 ---
@@ -419,22 +372,7 @@ Code is acceptable only when:
 7. No unsafe API is used without a wrapper.
 8. The design is simple, cohesive, and loosely coupled.
 9. Classes and functions have clear responsibilities.
-10. Design patterns are used only when they reduce complexity.
-11. Files and functions stay within size limits or have a documented reason.
-12. Headers are self-contained, minimal, and do not expose implementation details.
-13. Deviations are documented.
-```
-
----
-
-## Final Model
-
-```text
-Safety/compliance: MISRA C++:2023
-Security:          SEI CERT C++
-Design quality:    C++ Core Guidelines
-Clean design:      SOLID, clean code, and design patterns when useful
-File structure:    .hpp, .cpp, .ipp/.inl rules
-Language:          C++17
-Rule model:        Combined standard; safety, security, clarity, and design advance together
+10. Files and functions stay within size limits or have a documented reason.
+11. Headers are self-contained, minimal, and do not expose implementation details.
+12. Deviations are documented.
 ```

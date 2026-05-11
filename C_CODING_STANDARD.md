@@ -4,8 +4,6 @@ This document defines the default coding model for safe, secure, clean, maintain
 
 It is intended for both humans and coding agents.
 
-Also known as the C coding standard for this repository.
-
 ## Authority Order
 
 Use these standards together:
@@ -54,17 +52,6 @@ When writing, editing, or reviewing C code:
 8. Keep APIs small, explicit, and easy to test.
 9. Avoid hidden global state.
 10. If a rule must be broken, document the deviation.
-```
-
-Every generated solution should satisfy:
-
-```text
-safe by default
-secure at boundaries
-deterministic where possible
-easy to review
-easy to test
-easy to analyze
 ```
 
 ---
@@ -139,19 +126,17 @@ C-04: Make overflow impossible or explicitly checked.
 C-05: Avoid raw buffers without explicit size tracking.
 C-06: Avoid unsafe string and memory functions.
 C-07: Wrap unsafe C/library/system APIs behind reviewed abstractions.
-C-08: Make ownership explicit.
-C-09: Define who allocates and who frees every resource.
-C-10: Pair every init/open/acquire with cleanup/close/release.
-C-11: Check return values and error states.
-C-12: Handle partial reads, partial writes, invalid state, and failure paths.
-C-13: Prevent use-after-free, double-free, and dangling pointers.
-C-14: Protect shared mutable data.
-C-15: Document lock ordering.
-C-16: Avoid TOCTOU bugs.
-C-17: Avoid shell execution by default.
-C-18: Do not expose unsafe APIs across module boundaries.
-C-19: Encode security assumptions in checks, tests, or analysis.
-C-20: Avoid weak randomness for security-sensitive code.
+C-08: Enforce ownership and resource-lifetime contracts at boundaries.
+C-09: Check return values and error states.
+C-10: Handle partial reads, partial writes, invalid state, and failure paths.
+C-11: Prevent use-after-free, double-free, and dangling pointers.
+C-12: Protect shared mutable data.
+C-13: Document lock ordering.
+C-14: Avoid TOCTOU bugs.
+C-15: Avoid shell execution by default.
+C-16: Do not expose unsafe APIs across module boundaries.
+C-17: Encode security assumptions in checks, tests, or analysis.
+C-18: Avoid weak randomness for security-sensitive code.
 ```
 
 ---
@@ -184,23 +169,20 @@ error-code protocols
 D-01: Prefer simple designs over clever abstractions.
 D-02: Keep each function focused on one task.
 D-03: Keep each module responsible for one clear concept.
-D-04: Use .h files for public API only.
-D-05: Keep internal functions static inside .c files.
-D-06: Hide implementation details with opaque structs where useful.
-D-07: Prefer explicit init/deinit functions for owned resources.
-D-08: Name ownership-transfer functions clearly.
-D-09: Keep public interfaces small and stable.
-D-10: Avoid circular dependencies between modules.
-D-11: Separate pure logic from side effects.
-D-12: Avoid global mutable state.
-D-13: Pass dependencies explicitly through context structs when needed.
-D-14: Avoid function pointers unless they reduce coupling or model a stable interface.
-D-15: Avoid macro-based polymorphism unless approved.
-D-16: Use state machines for complex stateful behavior.
-D-17: Keep naming precise, domain-oriented, and unsurprising.
-D-18: Prefer explicit control flow over hidden magic.
-D-19: Avoid premature generalization.
-D-20: Optimize only after correctness, safety, and clarity are established.
+D-04: Hide implementation details with opaque structs where useful.
+D-05: Prefer explicit init/deinit functions for owned resources.
+D-06: Name ownership-transfer functions clearly.
+D-07: Keep public interfaces small and stable.
+D-08: Avoid circular dependencies between modules.
+D-09: Separate pure logic from side effects.
+D-10: Pass dependencies explicitly through context structs when needed.
+D-11: Avoid function pointers unless they reduce coupling or model a stable interface.
+D-12: Avoid macro-based polymorphism unless approved.
+D-13: Use state machines for complex stateful behavior.
+D-14: Keep naming precise, domain-oriented, and unsurprising.
+D-15: Prefer explicit control flow over hidden magic.
+D-16: Avoid premature generalization.
+D-17: Optimize only after correctness, safety, and clarity are established.
 ```
 
 ---
@@ -367,34 +349,6 @@ Recommended thresholds:
 
 ---
 
-## Minimum Baseline
-
-All C code must satisfy:
-
-```text
-B-01: Use C17.
-B-02: Enable high compiler warnings.
-B-03: Treat warnings as errors in CI where feasible.
-B-04: Run static analysis in CI.
-B-05: Use sanitizers in test builds where possible.
-B-06: Avoid undefined behavior.
-B-07: Initialize every object.
-B-08: Make ownership explicit.
-B-09: Avoid ambiguous raw pointers.
-B-10: Avoid runtime dynamic allocation unless approved.
-B-11: Validate all external input.
-B-12: Check all errors and return values.
-B-13: Make integer conversions explicit and checked.
-B-14: Avoid unsafe APIs unless wrapped.
-B-15: Protect shared mutable state.
-B-16: Keep modules simple, cohesive, and testable.
-B-17: Keep files and functions within size limits.
-B-18: Keep headers self-contained, minimal, and free of hidden dependencies.
-B-19: Document MISRA/CERT/size/design/header deviations.
-```
-
----
-
 ## Compiler Baseline
 
 For GCC/Clang-like toolchains:
@@ -496,17 +450,4 @@ Code is acceptable only when:
 11. Files and functions stay within size limits or have a documented reason.
 12. Headers are self-contained, minimal, and do not expose implementation details.
 13. Deviations are documented.
-```
-
----
-
-## Final Model
-
-```text
-Safety/compliance: MISRA C:2025
-Security:          SEI CERT C
-Design quality:    Project C Design Rules
-File structure:    .h and .c rules
-Language:          C17
-Rule model:        Combined standard; safety, security, clarity, and design advance together
 ```
