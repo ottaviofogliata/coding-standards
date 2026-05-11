@@ -10,7 +10,7 @@ Apply these references as one contract, not as a priority ladder:
 - PEP 8, PEP 257, and Python typing conventions
 - Project Python design rules
 
-Safety, security, clarity, and maintainable design are co-requirements. Do not trade one away to satisfy another. If rules appear to conflict, redesign until the code satisfies this contract. Code that cannot satisfy this contract does not merge.
+Safety, security, clarity, and maintainable design are co-requirements. Do not trade one away to satisfy another. If rules appear to conflict, redesign until the code satisfies this contract or record a formally approved, local deviation under the Deviation Process. Code outside this contract does not merge.
 
 Baseline: Python 3.12+. Project profiles may be stricter, not weaker.
 
@@ -46,7 +46,7 @@ Baseline: Python 3.12+. Project profiles may be stricter, not weaker.
 ### Errors and Runtime Behavior
 
 - PY-E01: Raise specific exceptions.
-- PY-E02: Do not catch `Exception`; catch specific error types and handle them at the boundary.
+- PY-E02: Catch specific error types. Broad `Exception` handlers are allowed only at top-level boundaries such as CLI entrypoints, workers, framework handlers, and task runners, and must log or convert the failure there.
 - PY-E03: Preserve exception context when wrapping errors.
 - PY-E04: Do not use exceptions for normal control flow.
 - PY-E05: Fail fast on invalid state.
@@ -78,6 +78,20 @@ Baseline: Python 3.12+. Project profiles may be stricter, not weaker.
 - Test with `pytest` and project coverage policy.
 - Audit dependencies with `pip-audit` and scan code with `bandit` or `semgrep`.
 
+## Deviation Process
+
+Deviations are exceptional and must be explicit before merge.
+
+Each deviation must record:
+
+1. The rule ID and exact code scope.
+2. The technical reason the rule cannot be satisfied.
+3. The risk assessment and compensating controls.
+4. The tests, static-analysis evidence, or review evidence that bounds the risk.
+5. The approver and review or expiry condition.
+
+No deviation may allow unchecked external input, secret exposure, unsafe deserialization of untrusted data, shell injection risk, known exploitable vulnerabilities, or unbounded ownership/lifetime ambiguity.
+
 ## Definition of Done
 
 Code is acceptable only when:
@@ -86,5 +100,6 @@ Code is acceptable only when:
 2. External input, paths, subprocesses, secrets, dependencies, and deserialization are controlled.
 3. Errors, configuration, side effects, and failure states are explicit.
 4. Public APIs are typed and contracts are visible in names, types, or docstrings.
-5. Modules, files, classes, and functions stay within this contract.
-6. Every mandatory rule passes.
+5. Deviations, if any, are local, approved, documented, and bounded.
+6. Modules, files, classes, and functions stay within this contract.
+7. Every mandatory rule passes or has an approved deviation.

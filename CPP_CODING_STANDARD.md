@@ -11,7 +11,7 @@ Apply these references as one contract, not as a priority ladder:
 - C++ Core Guidelines
 - Project C++ design rules
 
-Safety, security, clarity, and maintainable design are co-requirements. Do not trade one away to satisfy another. If rules appear to conflict, redesign until the code satisfies this contract. Code that cannot satisfy this contract does not merge.
+Safety, security, clarity, and maintainable design are co-requirements. Do not trade one away to satisfy another. If rules appear to conflict, redesign until the code satisfies this contract or record a formally approved, local deviation under the Deviation Process. Code outside this contract does not merge.
 
 Baseline: C++17. Project profiles may be stricter, not weaker.
 
@@ -22,7 +22,7 @@ Baseline: C++17. Project profiles may be stricter, not weaker.
 ### Language and Behavior
 
 - CPP-L01: Use C++17 and the project toolchain profile.
-- CPP-L02: Do not rely on undefined, unspecified, or implementation-defined behavior.
+- CPP-L02: Do not rely on undefined behavior. Any unavoidable unspecified or implementation-defined behavior must be documented in the project toolchain profile and covered by tests or static analysis.
 - CPP-L03: Initialize every object before use.
 - CPP-L04: Keep object lifetime obvious and valid.
 - CPP-L05: Never return pointers or references to local objects.
@@ -34,12 +34,12 @@ Baseline: C++17. Project profiles may be stricter, not weaker.
 
 ### Ownership and Interfaces
 
-- CPP-O01: Use RAII for resources.
+- CPP-O01: Use RAII for resources, including fixed storage, handles, locks, and cleanup actions.
 - CPP-O02: Express ownership with types; owning raw pointers are forbidden.
-- CPP-O03: Use unique ownership by default; shared ownership needs explicit lifetime justification.
+- CPP-O03: Use unique ownership by default; shared ownership needs explicit lifetime justification and must not require runtime heap allocation unless approved as a deviation.
 - CPP-O04: Public APIs document ownership, lifetime, nullability, and exception behavior.
 - CPP-O05: Use `std::array` for fixed storage and non-owning view types for non-owning ranges.
-- CPP-O06: Do not use containers that allocate at runtime.
+- CPP-O06: Do not use containers, smart pointers, or library utilities that allocate at runtime unless approved as a deviation.
 - CPP-O07: Public headers expose only stable API.
 - CPP-O08: Headers are self-contained and do not rely on transitive includes.
 - CPP-O09: Do not put `using namespace` in headers.
@@ -80,6 +80,20 @@ Baseline: C++17. Project profiles may be stricter, not weaker.
 - Run static analysis with project-selected MISRA/CERT/Core coverage, at minimum compiler diagnostics plus one analyzer such as `clang-tidy`, `cppcheck`, Coverity, PVS-Studio, Polyspace, Parasoft, Helix QAC, or LDRA.
 - Treat C APIs and low-level runtime interfaces as also subject to the C coding standard.
 
+## Deviation Process
+
+Deviations are exceptional and must be explicit before merge.
+
+Each deviation must record:
+
+1. The rule ID and exact code scope.
+2. The technical reason the rule cannot be satisfied.
+3. The risk assessment and compensating controls.
+4. The tests, static-analysis evidence, or review evidence that bounds the risk.
+5. The approver and review or expiry condition.
+
+No deviation may allow undefined behavior, unchecked external input, secret exposure, known exploitable vulnerabilities, or unbounded ownership/lifetime ambiguity.
+
 ## Definition of Done
 
 Code is acceptable only when:
@@ -88,6 +102,7 @@ Code is acceptable only when:
 2. Static analysis has no unresolved critical findings.
 3. Tests for normal paths, error paths, and boundary inputs pass.
 4. Ownership, lifetime, errors, and boundary validation are explicit.
-5. Unsafe APIs, shared state, throwing across forbidden boundaries, and dynamic allocation are absent.
-6. Modules, headers, files, classes, and functions stay within this contract.
-7. Every mandatory rule passes.
+5. Unsafe APIs, shared state, throwing across forbidden boundaries, and dynamic allocation are absent or covered by approved deviations.
+6. Deviations, if any, are local, approved, documented, and bounded.
+7. Modules, headers, files, classes, and functions stay within this contract.
+8. Every mandatory rule passes or has an approved deviation.

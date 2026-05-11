@@ -10,7 +10,7 @@ Apply these references as one contract, not as a priority ladder:
 - SEI CERT C
 - Project C design rules
 
-Safety, security, clarity, and maintainable design are co-requirements. Do not trade one away to satisfy another. If rules appear to conflict, redesign until the code satisfies this contract. Code that cannot satisfy this contract does not merge.
+Safety, security, clarity, and maintainable design are co-requirements. Do not trade one away to satisfy another. If rules appear to conflict, redesign until the code satisfies this contract or record a formally approved, local deviation under the Deviation Process. Code outside this contract does not merge.
 
 Baseline: C17. Project profiles may be stricter, not weaker.
 
@@ -21,7 +21,7 @@ Baseline: C17. Project profiles may be stricter, not weaker.
 ### Language and Behavior
 
 - C-L01: Use C17 and the project toolchain profile.
-- C-L02: Do not rely on undefined, unspecified, or implementation-defined behavior.
+- C-L02: Do not rely on undefined behavior. Any unavoidable unspecified or implementation-defined behavior must be documented in the project toolchain profile and covered by tests or static analysis.
 - C-L03: Initialize every object before use.
 - C-L04: Keep object lifetime obvious and valid.
 - C-L05: Never return pointers to local objects.
@@ -76,6 +76,20 @@ Baseline: C17. Project profiles may be stricter, not weaker.
 - Run sanitizer builds for memory, undefined-behavior, and thread issues.
 - Run static analysis with project-selected MISRA/CERT coverage, at minimum compiler diagnostics plus one analyzer such as `clang-tidy`, `cppcheck`, Coverity, PVS-Studio, Polyspace, Parasoft, Helix QAC, or LDRA.
 
+## Deviation Process
+
+Deviations are exceptional and must be explicit before merge.
+
+Each deviation must record:
+
+1. The rule ID and exact code scope.
+2. The technical reason the rule cannot be satisfied.
+3. The risk assessment and compensating controls.
+4. The tests, static-analysis evidence, or review evidence that bounds the risk.
+5. The approver and review or expiry condition.
+
+No deviation may allow undefined behavior, unchecked external input, secret exposure, known exploitable vulnerabilities, or unbounded ownership/lifetime ambiguity.
+
 ## Definition of Done
 
 Code is acceptable only when:
@@ -84,6 +98,7 @@ Code is acceptable only when:
 2. Static analysis has no unresolved critical findings.
 3. Tests for normal paths, error paths, and boundary inputs pass.
 4. Ownership, lifetime, errors, and boundary validation are explicit.
-5. Unsafe APIs, shared state, and dynamic allocation are absent.
-6. Modules, headers, files, and functions stay within this contract.
-7. Every mandatory rule passes.
+5. Unsafe APIs, shared state, and dynamic allocation are absent or covered by approved deviations.
+6. Deviations, if any, are local, approved, documented, and bounded.
+7. Modules, headers, files, and functions stay within this contract.
+8. Every mandatory rule passes or has an approved deviation.
