@@ -8,7 +8,7 @@ Also known as the C coding standard for this repository.
 
 ## Authority Order
 
-Apply the standards in this order:
+Use these standards together:
 
 ```text
 1. MISRA C:2025
@@ -24,10 +24,11 @@ CERT defines what C is secure.
 Project Design Rules define what C is clean and maintainable.
 ```
 
-Conflict rule:
+Design principle:
 
 ```text
-MISRA > CERT > Project Design Rules
+Safety, security, clarity, and maintainable code design are co-requirements.
+Do not trade one away to satisfy another; choose the code design that satisfies all.
 ```
 
 Default language baseline:
@@ -43,10 +44,10 @@ C17
 When writing, editing, or reviewing C code:
 
 ```text
-1. Prefer the safest design, not the cleverest one.
-2. Enforce MISRA first.
-3. Enforce CERT security rules second.
-4. Use project design rules only where they do not conflict.
+1. Prefer architecture and code designs that are safe, secure, clear, and easy to review.
+2. Enforce MISRA, CERT, and project design rules as one combined standard.
+3. Treat security, safety, clarity, and maintainability as inseparable design goals.
+4. Resolve apparent rule conflicts explicitly instead of weakening design quality.
 5. Avoid undefined, unspecified, and implementation-defined behavior.
 6. Make ownership, lifetime, errors, and concurrency explicit.
 7. Prefer simple code that can be statically analyzed.
@@ -507,5 +508,5 @@ Security:          SEI CERT C
 Design quality:    Project C Design Rules
 File structure:    .h and .c rules
 Language:          C17
-Precedence:        MISRA > CERT > Project Design/file preferences
+Rule model:        Combined standard; safety, security, clarity, and design advance together
 ```

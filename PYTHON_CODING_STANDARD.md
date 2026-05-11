@@ -8,7 +8,7 @@ Also known as the PY/PYTHON coding standard for this repository.
 
 ## Authority Order
 
-Apply the standards in this order:
+Use these standards together:
 
 ```text
 1. Security and safety requirements
@@ -24,10 +24,11 @@ PEP standards define what Python should look like.
 Project Design Rules define what Python should be structurally.
 ```
 
-Conflict rule:
+Design principle:
 
 ```text
-Security > PEP standards > Project Design Rules
+Safety, security, clarity, and maintainable code design are co-requirements.
+Do not trade one away to satisfy another; choose the code design that satisfies all.
 ```
 
 Default language baseline:
@@ -43,10 +44,10 @@ Python 3.12+
 When writing, editing, or reviewing Python code:
 
 ```text
-1. Prefer the safest design, not the cleverest one.
-2. Enforce security rules first.
-3. Follow PEP 8, PEP 257, and typing conventions.
-4. Use project design rules only where they do not conflict.
+1. Prefer designs that are safe, secure, clear, and easy to review.
+2. Enforce security, safety, PEP, typing, and project code design rules as one combined standard.
+3. Treat security, safety, clarity, and maintainability as inseparable design goals.
+4. Resolve apparent rule conflicts explicitly instead of weakening design quality.
 5. Make input validation, errors, dependencies, and side effects explicit.
 6. Prefer simple code that can be tested and statically analyzed.
 7. Keep modules, functions, and classes small and cohesive.
@@ -478,5 +479,5 @@ Style quality:     PEP 8, PEP 257, typing conventions
 Design quality:    Project Python Design Rules
 File structure:    .py package/module rules
 Language:          Python 3.12+
-Precedence:        Security > PEP standards > Project Design/file preferences
+Rule model:        Combined standard; safety, security, clarity, and design advance together
 ```

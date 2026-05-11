@@ -8,7 +8,7 @@ Also known as the CPP/CXX coding standard for this repository.
 
 ## Authority Order
 
-Apply the standards in this order:
+Use these standards together:
 
 ```text
 1. MISRA C++:2023
@@ -24,10 +24,11 @@ CERT defines what C++ is secure.
 Core Guidelines define what C++ is clean and maintainable.
 ```
 
-Conflict rule:
+Design principle:
 
 ```text
-MISRA > CERT > C++ Core Guidelines
+Safety, security, clarity, and maintainable code design are co-requirements.
+Do not trade one away to satisfy another; choose the code design that satisfies all.
 ```
 
 Default language baseline:
@@ -43,10 +44,10 @@ C++17
 When writing, editing, or reviewing C++ code:
 
 ```text
-1. Prefer the safest design, not the cleverest one.
-2. Enforce MISRA first.
-3. Enforce CERT security rules second.
-4. Use C++ Core Guidelines only where they do not conflict.
+1. Prefer architectures and code designs that are safe, secure, clear, and easy to review.
+2. Enforce MISRA, CERT, and C++ Core Guidelines as one combined standard to follow.
+3. Treat security, safety, clarity, and maintainability as inseparable design goals.
+4. Resolve apparent rule conflicts explicitly instead of weakening design quality.
 5. Avoid undefined, unspecified, and implementation-defined behavior.
 6. Make ownership, lifetime, errors, and concurrency explicit.
 7. Prefer simple code that can be statically analyzed.
@@ -435,5 +436,5 @@ Design quality:    C++ Core Guidelines
 Clean design:      SOLID, clean code, and design patterns when useful
 File structure:    .hpp, .cpp, .ipp/.inl rules
 Language:          C++17
-Precedence:        MISRA > CERT > Core Guidelines > Design/file preferences
+Rule model:        Combined standard; safety, security, clarity, and design advance together
 ```
