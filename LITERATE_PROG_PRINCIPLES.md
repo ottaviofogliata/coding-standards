@@ -8,14 +8,18 @@ in C, C++, Python, Rust, Go, JavaScript, or any other language.
 A literate source file should read as a technical argument: first the intention,
 then the reasoning, then the code.
 
-Use the comment marker that fits the language:
+Use this block format for each literate section:
 
 ```text
-Python / shell / config:  # -- Section Title --
-C / C++ / Rust / Go:      // -- Section Title --
-SQL / Lua:                -- -- Section Title --
-HTML / XML:               <!-- Section Title -->
+# ── Descriptive Title ─────────────────────────────────────────────
+# Prose explaining the reasoning behind the logic that follows.
+# ──────────────────────────────────────────────────────────────────
 ```
+
+The title names the responsibility. The prose explains the reasoning, invariant,
+or design choice that makes the following code easier to review. When a language
+requires a different comment prefix, keep the same title, prose, and separator
+shape and replace only the prefix.
 
 ## 01. Explain Intent Before Mechanism
 
@@ -26,9 +30,9 @@ State what a block is meant to achieve before asking the reader to infer it from
 the implementation. Explain the goal, not the syntax.
 
 ```text
-# -- Parse User Configuration --
-# Load external configuration and convert it into a trusted internal shape
-# before the rest of the program uses it.
+# ── Parse User Configuration ──────────────────────────────────────
+# Load external configuration into a trusted internal shape before use.
+# ──────────────────────────────────────────────────────────────────
 ```
 
 ## 02. Make Structure Follow The Problem
@@ -57,11 +61,13 @@ Split a block when it contains more than one idea. Prefer several named sections
 over one long anonymous region.
 
 ```text
-# -- Normalize Input --
-# Convert raw input into canonical values once.
+# ── Normalize Input ───────────────────────────────────────────────
+# Convert raw input into canonical values once, before any rule runs.
+# ──────────────────────────────────────────────────────────────────
 
-# -- Apply Business Rule --
-# Use only canonical values to decide the outcome.
+# ── Apply Business Rule ───────────────────────────────────────────
+# Decide the outcome from canonical values only, not raw input.
+# ──────────────────────────────────────────────────────────────────
 ```
 
 ## 04. Name Concepts And Decisions Explicitly
