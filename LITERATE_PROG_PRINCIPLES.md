@@ -11,15 +11,18 @@ then the reasoning, then the code.
 Use this block format for each literate section:
 
 ```text
-# ── Descriptive Title ─────────────────────────────────────────────
-# Prose explaining the reasoning behind the logic that follows.
+# ── Trust Boundary Is Narrowed Before Parsing ─────────────────────
+# Raw input still belongs to the outside world. This section converts it into
+# one internal shape so later rules can reason from verified facts instead of
+# repeating trust decisions.
 # ──────────────────────────────────────────────────────────────────
 ```
 
-The title names the responsibility. The prose explains the reasoning, invariant,
-or design choice that makes the following code easier to review. When a language
-requires a different comment prefix, keep the same title, prose, and separator
-shape and replace only the prefix.
+The title names the responsibility. The prose is a short design note: it explains
+the context, the reason for this shape, and the invariant or failure mode the
+following code protects. It must not merely paraphrase the next function name or
+list implementation steps. When a language requires a different comment prefix,
+keep the same title, prose, and separator shape and replace only the prefix.
 
 ## 01. Explain Intent Before Mechanism
 
@@ -31,7 +34,9 @@ the implementation. Explain the goal, not the syntax.
 
 ```text
 # ── Parse User Configuration ──────────────────────────────────────
-# Load external configuration into a trusted internal shape before use.
+# The file may be partial, stale, or written by hand. Parsing isolates those
+# hazards here and gives the rest of the program one complete, typed view of
+# runtime policy.
 # ──────────────────────────────────────────────────────────────────
 ```
 
@@ -62,11 +67,14 @@ over one long anonymous region.
 
 ```text
 # ── Normalize Input ───────────────────────────────────────────────
-# Convert raw input into canonical values once, before any rule runs.
+# Different callers spell the same intent in different ways. Normalize once at
+# the boundary so later rules compare domain values, not transport quirks.
 # ──────────────────────────────────────────────────────────────────
 
 # ── Apply Business Rule ───────────────────────────────────────────
-# Decide the outcome from canonical values only, not raw input.
+# At this point the data has already crossed the trust boundary. The rule can
+# stay small because it decides only from canonical facts and cannot reopen
+# parsing, fallback, or validation policy.
 # ──────────────────────────────────────────────────────────────────
 ```
 
@@ -108,6 +116,7 @@ Before adding a block, ask:
 What is this block for?
 Why is it designed this way?
 What protects the behavior?
+What would a future reader misunderstand if this prose disappeared?
 ```
 
 A literate program is not verbose code. It is code whose structure, names,
